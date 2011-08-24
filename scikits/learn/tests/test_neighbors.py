@@ -220,7 +220,9 @@ def test_kneighbors_iris():
             assert np.linalg.norm(pred_data - data) / data.shape[0] < 0.1
 
 
-def test_ball_tree_query_radius(n_samples=100, n_features=10):
+def test_ball_tree(n_samples=100, n_features=10):
+
+    # test for query-radius
     X = 2 * np.random.random(size=(n_samples, n_features)) - 1
     query_pt = np.zeros(n_features, dtype=float)
 
@@ -236,6 +238,11 @@ def test_ball_tree_query_radius(n_samples=100, n_features=10):
         i.sort()
 
         assert np.all(i == ind)
+
+    # test that ball_tree is pickelizable
+    import pickle
+    dump = pickle.dumps(bt)
+    bt = pickle.loads(dump)
 
 
 def test_ball_tree_query_radius_distance(n_samples=100, n_features=10):
